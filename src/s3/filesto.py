@@ -29,5 +29,5 @@ def upload_file(file: any) -> str:
         return {"error": str(e)}
 
 
-def get_public_s3_url(filename: str) -> str:
-    return f"{s3_config['endpoint_url']}/card-images/{filename}"
+def get_public_s3_url(filename: str, bucket: str) -> str:
+    return f"{s3_config['endpoint_url']}/{bucket}/{filename}"
