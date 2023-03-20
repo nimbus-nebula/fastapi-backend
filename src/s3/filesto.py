@@ -1,7 +1,8 @@
 import os
+from datetime import datetime
+
 import boto3
 
-from datetime import datetime
 from src.s3.config import s3_config
 
 s3 = boto3.resource(**s3_config)
@@ -19,7 +20,7 @@ def upload_file(file: any) -> str:
         # TODO: Need to find a more dynamic way to retrieve the bucket
         bucket = os.environ.get("S3_BUCKET")
         timestamp = datetime.utcnow().isoformat()
-        filetype = file.filename.split('.')[-1]
+        filetype = file.filename.split(".")[-1]
         filename = f"{timestamp}{filetype}"
 
         s3.Bucket(bucket).Object(filename).put(Body=file.read())

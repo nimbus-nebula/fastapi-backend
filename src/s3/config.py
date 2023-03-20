@@ -11,5 +11,5 @@ s3_config = {
     "aws_access_key_id": s3_user,
     "aws_secret_access_key": s3_password,
     "endpoint_url": f"http://{s3_host}:{s3_port}",
-    "verify": False
+    "verify": False,
 }

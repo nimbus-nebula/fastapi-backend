@@ -5,6 +5,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 from src import redis
 from src.auth.router import router as auth_router
+from src.s3.router import router as s3_router
 from src.config import app_configs, settings
 from src.database import database
 
@@ -47,3 +48,4 @@ async def healthcheck() -> dict[str, str]:
 
 
 app.include_router(auth_router, prefix="/auth", tags=["Auth"])
+app.include_router(s3_router, prefix="/s3", tags=["S3"])

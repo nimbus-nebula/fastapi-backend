@@ -9,7 +9,7 @@ class Config(BaseSettings):
     DATABASE_URL: PostgresDsn
     REDIS_URL: RedisDsn
 
-    SITE_DOMAIN: str = "myapp.com"
+    SITE_DOMAIN: str = "tanpantz.com"
 
     ENVIRONMENT: Environment = Environment.PRODUCTION
 

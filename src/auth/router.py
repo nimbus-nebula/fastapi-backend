@@ -13,7 +13,9 @@ from src.auth.schemas import AccessTokenResponse, AuthUser, JWTData, UserRespons
 router = APIRouter()
 
 
-@router.post("/users", status_code=status.HTTP_201_CREATED, response_model=UserResponse)
+@router.post(
+    "/register", status_code=status.HTTP_201_CREATED, response_model=UserResponse
+)
 async def register_user(
     auth_data: AuthUser = Depends(valid_user_create),
 ) -> dict[str, str]:
@@ -23,7 +25,7 @@ async def register_user(
     }
 
 
-@router.get("/users/me", response_model=UserResponse)
+@router.get("/me", response_model=UserResponse)
 async def get_my_account(
     jwt_data: JWTData = Depends(parse_jwt_user_data),
 ) -> dict[str, str]:
@@ -34,7 +36,7 @@ async def get_my_account(
     }
 
 
-@router.post("/users/tokens", response_model=AccessTokenResponse)
+@router.post("/login", response_model=AccessTokenResponse)
 async def auth_user(auth_data: AuthUser, response: Response) -> AccessTokenResponse:
     user = await service.authenticate_user(auth_data)
     refresh_token_value = await service.create_refresh_token(user_id=user["id"])
@@ -47,7 +49,7 @@ async def auth_user(auth_data: AuthUser, response: Response) -> AccessTokenRespo
     )
 
 
-@router.put("/users/tokens", response_model=AccessTokenResponse)
+@router.put("/refresh", response_model=AccessTokenResponse)
 async def refresh_tokens(
     worker: BackgroundTasks,
     response: Response,
@@ -66,7 +68,7 @@ async def refresh_tokens(
     )
 
 
-@router.delete("/users/tokens")
+@router.delete("/logout")
 async def logout_user(
     response: Response,
     refresh_token: Record = Depends(valid_refresh_token),
