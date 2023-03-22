@@ -24,4 +24,14 @@ async def download_file():
 @router.get("/list",)
 async def list_files():
     # TODO: List files endpoint
+    # File1: https://s3.amazonaws.com/bucket-name/file1
+    # File2: https://s3.amazonaws.com/bucket-name/file2
+
+    #return [(File1, url...), (File2, url...)]
+    
     return {"message": "Files listed successfully"}
+
+@router.post("/create/bucket")
+async def create_bucket():
+    # TODO: Create a new bucket in s3
+    return {"message": "Bucket created successfully"}
