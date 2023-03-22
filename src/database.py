@@ -47,3 +47,13 @@ refresh_tokens = Table(
     Column("created_at", DateTime, server_default=func.now(), nullable=False),
     Column("updated_at", DateTime, onupdate=func.now()),
 )
+
+messages = Table(
+    "messages",
+    metadata,
+    Column("id", Integer, Identity(), primary_key=True),
+    Column("user_id", ForeignKey("auth_user.id", ondelete="CASCADE"), nullable=False),
+    Column("message", String, nullable=False),
+    Column("created_at", DateTime, server_default=func.now(), nullable=False),
+    Column("updated_at", DateTime, onupdate=func.now()),
+)
