@@ -7,9 +7,9 @@ import platform
 pytestmark = pytest.mark.asyncio
 
 test_email = "example@gmail.com"
-save_as = "bossFile.txt"
-# filepath_to_upload = "/mnt/c/Users/tanapon/Desktop/sometext.txt"
-filepath_to_upload = "/home/tanapon/Downloads"
+save_as = "bossFile2.txt"
+filepath_to_upload = "/mnt/c/Users/tanapon/Desktop/sometext.txt"
+
 async def test_upload_file():
     resp = await upload.upload_file(test_email, save_as, filepath_to_upload)
     print(resp)
