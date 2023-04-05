@@ -1,13 +1,12 @@
 import aioredis
 import sentry_sdk
 from fastapi import FastAPI
-from starlette.middleware.cors import CORSMiddleware
-
 from src import redis
 from src.auth.router import router as auth_router
-from src.s3.router import router as s3_router
 from src.config import app_configs, settings
 from src.database import database
+from src.s3.router import router as s3_router
+from starlette.middleware.cors import CORSMiddleware
 
 app = FastAPI(**app_configs)
 

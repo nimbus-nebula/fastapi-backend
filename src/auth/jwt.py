@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 from datetime import datetime, timedelta
 
 from databases.interfaces import Record
 from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
-
 from src.auth.config import auth_config
 from src.auth.exceptions import AuthorizationFailed, AuthRequired, InvalidToken
 from src.auth.schemas import JWTData

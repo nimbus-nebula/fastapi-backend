@@ -1,17 +1,18 @@
+from __future__ import annotations
+
 from datetime import timedelta
-from typing import Optional
+from typing import Optional, Union
 
 from aioredis import Redis
-
 from src.models import ORJSONModel
 
 redis_client: Redis = None  # type: ignore
 
 
 class RedisData(ORJSONModel):
-    key: bytes | str
-    value: bytes | str
-    ttl: Optional[int | timedelta]
+    key: Union[bytes, str]
+    value: Union[bytes, str]
+    ttl: Optional[Union[int, timedelta]]
 
 
 async def set_redis_key(redis_data: RedisData, *, is_transaction: bool = False) -> None:

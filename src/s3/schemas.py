@@ -1,9 +1,9 @@
 import re
 
 from pydantic import EmailStr, Field, validator
-from src.models import ORJSONModel
 
-STRONG_PASSWORD_PATTERN = re.compile(r"^(?=.*[\d])(?=.*[!@#$%^&*])[\w!@#$%^&*]{6,128}$")
+from src.auth.schemas import STRONG_PASSWORD_PATTERN
+from src.models import ORJSONModel
 
 
 class AuthUser(ORJSONModel):
@@ -23,6 +23,10 @@ class AuthUser(ORJSONModel):
 
         return password
 
+
+class UploadData(ORJSONModel):
+    save_as: str
+    filepath_to_upload: str
 
 class JWTData(ORJSONModel):
     user_id: int = Field(alias="sub")
