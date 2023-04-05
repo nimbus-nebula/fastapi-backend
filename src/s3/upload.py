@@ -3,6 +3,8 @@ from typing import Dict
 
 from fastapi import Depends
 from minio import Minio
+from pydantic import EmailStr
+
 from src.s3.service import convert_email_to_bucket
 from src.s3.config import minio_config
 
@@ -26,7 +28,7 @@ client = Minio(endpoint=minio_config["endpoint"],
 print("Total buckets:", len(client.list_buckets()))
 
 
-async def upload_file(email: str, save_as: any, filepath_to_upload: any) -> dict[str, str]:
+async def upload_file(email: EmailStr, save_as: any, filepath_to_upload: any) -> dict[str, str]:
     bucket_name = convert_email_to_bucket(email)
     print("bucket_name: {1}", bucket_name)
     """

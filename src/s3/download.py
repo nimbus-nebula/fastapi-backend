@@ -1,6 +1,8 @@
 from datetime import datetime
 from fastapi import Depends
 from minio import Minio
+from pydantic import EmailStr
+
 from src.s3.service import convert_email_to_bucket
 from src.s3.config import minio_config
 # from src.s3 import client
@@ -27,7 +29,9 @@ client = Minio(endpoint=minio_config["endpoint"],
    :param email, the file that needs to be uploaded, download location
    :return the url that the file can be located at
 """
-async def download_file(email: str, object_name: any, filepath_to_download: any) -> dict[str, str]:
+
+
+async def download_file(email: EmailStr, object_name: any, filepath_to_download: any) -> dict[str, str]:
     bucket_name = convert_email_to_bucket(email)
     try:
         found = client.bucket_exists(bucket_name)
