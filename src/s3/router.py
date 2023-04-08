@@ -2,13 +2,14 @@ from databases.interfaces import Record
 from fastapi import APIRouter, Depends
 from pydantic import EmailStr
 from starlette import status
-from src.s3 import service as s3_service
+from src.s3 import service as s3_service, objects_list
 from src.auth import service
 from src.auth.jwt import parse_jwt_user_data
 from src.auth.schemas import UserResponse, JWTData
 from src.s3.schemas import UploadData, DownloadData
 from src.s3 import upload as s3upload
 from src.s3 import download as s3download
+import ast
 
 router = APIRouter()
 @router.get("/dd")
@@ -26,15 +27,15 @@ async def upload(
     email: EmailStr = user["email"]
     save_as = upload_data.save_as
     print("save as: ", save_as)
-    file_path = upload_data.filepath_to_upload
-    print("file_path: ", file_path)
-    upload_result = await s3upload.upload_file(email, save_as, file_path)
+    # file_path = upload_data.filepath_to_upload
+    # print("file_path: ", file_path)
+    file = upload_data.file
+    upload_result = await s3upload.upload_file(email, save_as, file)
     print(upload_result)
     # print("hi upload3: {0}".format(upload_result))
-    return {
-        upload_result
+    return upload_result
         # "message": "File uploaded successfully",  # type: ignore
-    }
+
 
 @router.get("/download", )
 async def download_file(
@@ -44,7 +45,7 @@ async def download_file(
     user = await service.get_user_by_id(jwt_data.user_id)
     email: EmailStr = user["email"]
     download_result = await s3download.download_file(email, download_data.obj_name, download_data.filepath_to_download)
-    return {download_result}
+    return download_result
 
 @router.post("/message", status_code=status.HTTP_201_CREATED)
 async def post_message(
@@ -57,15 +58,15 @@ async def post_message(
 """
 List files endpoint
 """
-@router.get("/list", )
+@router.get("/list", status_code=status.HTTP_200_OK)
 async def list_files(
         jwt_data: JWTData = Depends(parse_jwt_user_data),
-
 ):
     user = await service.get_user_by_id(jwt_data.user_id)
     email: EmailStr = user["email"]
-    file_lists = await s3download.download_file(email)
-    return {file_lists}
+    file_lists = await objects_list.list_objects(email)
+    literal = ast.literal_eval(file_lists)
+    return literal
 
 
 

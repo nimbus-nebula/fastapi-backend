@@ -28,7 +28,7 @@ client = Minio(endpoint=minio_config["endpoint"],
 print("Total buckets:", len(client.list_buckets()))
 
 
-async def upload_file(email: EmailStr, save_as: any, filepath_to_upload: any) -> dict[str, str]:
+async def upload_file(email: EmailStr, save_as: any, filebytes: any) -> dict[str, str]:
     bucket_name = convert_email_to_bucket(email)
     print("bucket_name: {1}", bucket_name)
     """
@@ -50,8 +50,8 @@ async def upload_file(email: EmailStr, save_as: any, filepath_to_upload: any) ->
         #     email, "my_file.txt", "/mnt/c/Users/tanapon/Desktop/sometext.txt",
         # )
 
-        result = client.fput_object(
-            bucket_name, save_as, filepath_to_upload,
+        result = client.put_object(
+            bucket_name, save_as, filebytes,-1, part_size=10*1024*1024,
         )
         print("after result")
         print("Created {0} with etag: {1}, version-id: {2}".format(

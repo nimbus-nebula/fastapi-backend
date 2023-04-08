@@ -2,7 +2,7 @@ from datetime import datetime
 from fastapi import Depends
 from minio import Minio
 from pydantic import EmailStr
-
+import logging
 from src.s3.service import convert_email_to_bucket
 from src.s3.config import minio_config
 # from src.s3 import client
@@ -33,6 +33,7 @@ client = Minio(endpoint=minio_config["endpoint"],
 
 async def download_file(email: EmailStr, object_name: any, filepath_to_download: any) -> dict[str, str]:
     bucket_name = convert_email_to_bucket(email)
+    logging.error(f"This is an error message: {filepath_to_download} Additional text")
     try:
         found = client.bucket_exists(bucket_name)
         if not found:
