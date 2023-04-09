@@ -35,21 +35,21 @@ jobs:
         docker push ghcr.io/${{ env.BASE_IMG_NAME }}/fastapi-backend:${{ steps.vars.outputs.sha_short }}
         docker push ghcr.io/${{ env.BASE_IMG_NAME }}/fastapi-backend:latest
 
-  # deploy:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     packages: read
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      packages: read
 
-    # steps:
-    # - name: Deploy Docker Image on Droplet
-    #   uses: appleboy/ssh-action@master
-    #   with:
-    #     host:  ${{ secrets.SSH_HOST }}
-    #     key:   ${{ secrets.SSH_KEY }}
-    #     username:  ${{ secrets.SSH_USERNAME }}
-    #     script: |
-    #       docker rm -f flaskapp 
-    #       docker pull ghcr.io/muic-trading-cards/backend/backend:latest
-    #       docker run -d --name=flaskapp --env-file /home/justyn/mysql.env -p 8888:8888 ghcr.io/muic-trading-cards/backend/backend
+    steps:
+    - name: Deploy Docker Image on Droplet
+      uses: appleboy/ssh-action@master
+      with:
+        host:  ${{ secrets.SSH_HOST }}
+        key:   ${{ secrets.SSH_KEY }}
+        username:  ${{ secrets.SSH_USERNAME }}
+        script: |
+          docker rm -f backend
+          docker pull ghcr.io/{{ env.BASE_IMG_NAME }}/fastapi-backend:latest
+          docker run -d --name=backend --env-file /home/justyn/nim-neb/.env -p 8081:80 ghcr.io/{{ env.BASE_IMG_NAME }}/fastapi-backend:latest
           
