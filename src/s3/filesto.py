@@ -2,7 +2,6 @@ import os
 from datetime import datetime
 
 import boto3
-
 from src.s3.config import s3_config
 
 s3 = boto3.resource(**s3_config)
