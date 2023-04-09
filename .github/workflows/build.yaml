@@ -50,6 +50,6 @@ jobs:
         username:  ${{ secrets.SSH_USERNAME }}
         script: |
           docker rm -f backend
-          docker pull ghcr.io/{{ env.BASE_IMG_NAME }}/fastapi-backend:latest
+          docker pull ghcr.io/nimbus-nebula/{{ env.BASE_IMG_NAME }}/fastapi-backend:latest
           docker run -d --name=backend --env-file /home/justyn/nim-neb/.env -p 8081:80 ghcr.io/{{ env.BASE_IMG_NAME }}/fastapi-backend:latest
           
