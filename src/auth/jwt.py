@@ -1,7 +1,4 @@
-from __future__ import annotations
-
 from datetime import datetime, timedelta
-
 from databases.interfaces import Record
 from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer

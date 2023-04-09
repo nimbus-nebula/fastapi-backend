@@ -58,13 +58,3 @@ messages = Table(
     Column("updated_at", DateTime, onupdate=func.now()),
 )
 
-file = Table(
-    "file",
-    metadata,
-    Column("id", Integer, Identity(), primary_key=True),
-    Column("owner", String, nullable=False),
-    Column("password", LargeBinary, nullable=False),
-    Column("is_admin", Boolean, server_default="false", nullable=False),
-    Column("created_at", DateTime, server_default=func.now(), nullable=False),
-    Column("updated_at", DateTime, onupdate=func.now()),
-)

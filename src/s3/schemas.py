@@ -28,19 +28,3 @@ class UploadData(ORJSONModel):
     save_as: str
     file: any
 
-class DownloadData(ORJSONModel):
-    obj_name: str
-    filepath_to_download: str
-
-# class JWTData(ORJSONModel):
-#     user_id: int = Field(alias="sub")
-#     is_admin: bool = False
-#
-#
-# class AccessTokenResponse(ORJSONModel):
-#     access_token: str
-#     refresh_token: str
-#
-#
-# class UserResponse(ORJSONModel):
-#     email: EmailStr

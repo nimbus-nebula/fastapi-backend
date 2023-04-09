@@ -11,8 +11,6 @@ client = Minio(endpoint=minio_config["endpoint"],
                access_key=minio_config["access_key"],
                secret_key=minio_config["secret_key"],
                secure=minio_config["secure"])
-
-
 async def list_objects(email: str) -> [dict[str, list[dict[str, str]]] | dict[str, str]]:
     bucket_name = convert_email_to_bucket(email)
     try:
@@ -35,24 +33,3 @@ async def list_objects(email: str) -> [dict[str, list[dict[str, str]]] | dict[st
 
     except Exception as e:
         return {"error": str(e)}
-
-# async def list_objects(email: str) -> [dict[str, list[str]] | dict[str, str]]:
-#
-#     bucket_name = convert_email_to_bucket(email)
-#     try:
-#         found = client.bucket_exists(bucket_name)
-#         if not found:
-#             raise Exception(f"Bucket {bucket_name} does not exist")
-#
-#         objects = client.list_objects(bucket_name)
-#         object_names = [obj.object_name for obj in objects]
-#         url = client.get_presigned_url(
-#             "GET",
-#             "my-bucket",
-#             "my-object",
-#             expires=timedelta(hours=2),
-#         )
-#         return {email: object_names}
-#
-#     except Exception as e:
-#         return {"error": str(e)}

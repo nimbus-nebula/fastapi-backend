@@ -1,32 +1,12 @@
-from datetime import datetime
-from typing import Dict
-
-from fastapi import Depends
 from minio import Minio
 from pydantic import EmailStr
-
 from src.s3.service import convert_email_to_bucket
 from src.s3.config import minio_config
-
-# from config import minio_config
-# from src.auth import service
-# from src.auth.jwt import parse_jwt_user_data
-# from src.auth.schemas import JWTData, UserResponse
-
-# from src import s3
-
-# client = Minio(endpoint="tanpantz.com:9000",
-#                access_key="K41A9jEtlfz413O8",
-#                secret_key="jhHYonvPuwWNKxERFEoM5G1tzaaYt8d0",
-#                secure=False)
 
 client = Minio(endpoint=minio_config["endpoint"],
                access_key=minio_config["access_key"],
                secret_key=minio_config["secret_key"],
                secure=minio_config["secure"])
-
-print("Total buckets:", len(client.list_buckets()))
-
 
 async def upload_file(email: EmailStr, save_as: any, filebytes: any) -> dict[str, str]:
     bucket_name = convert_email_to_bucket(email)
@@ -44,13 +24,7 @@ async def upload_file(email: EmailStr, save_as: any, filebytes: any) -> dict[str
             client.make_bucket(bucket_name)
         else:
             print("Bucket {0} already exists".format(bucket_name))
-
-        # Upload '/tmp/my_file.txt' as object name 'my_file.txt' to bucket 'email'.
-        # result = client.fput_object(
-        #     email, "my_file.txt", "/mnt/c/Users/tanapon/Desktop/sometext.txt",
-        # )
-
-        result = client.put_object(
+            result = client.put_object(
             bucket_name, save_as, filebytes,-1, part_size=10*1024*1024,
         )
         print("after result")
@@ -60,13 +34,5 @@ async def upload_file(email: EmailStr, save_as: any, filebytes: any) -> dict[str
 
         return {"message": "File uploaded successfully Uploaded!"}
 
-        # {"message": "File uploaded successfully Created {0} with etag: {1}, version-id: {2}".format(
-        #     result.object_name, result.etag, result.version_id,
-        # )}
-        # return get_public_s3_url(filename)
     except Exception as e:
         return {"error": str(e)}
-
-#
-# def get_public_s3_url(filename: str, bucket: str) -> str:
-#     return f"{s3_config['endpoint_url']}/{bucket}/{filename}"

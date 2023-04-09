@@ -79,11 +79,4 @@ async def logout_user(
         **utils.get_refresh_token_settings(refresh_token["refresh_token"], expired=True)
     )
 
-@router.post("/message", status_code=status.HTTP_201_CREATED)
-async def post_message(
-    payload: dict[str, str],
-    jwt_data: JWTData = Depends(parse_jwt_user_data),
-) -> dict[str, str]:
-    post = await service.send_message(payload, jwt_data.user_id)
-    return post
 
