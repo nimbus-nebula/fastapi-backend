@@ -1,19 +1,22 @@
-from minio import Minio
 import urllib3
+from minio import Minio
+
 # import ssl
 # print(ssl.OPENSSL_VERSION)
 
-#print url lib3 version
+# print url lib3 version
 # print(urllib3.util.ssl_.DEFAULT_SSL_CIPHERS)
 #
 # from urllib3.util.ssl_ import DEFAULT_SSL_CIPHERS
 # print(DEFAULT_SSL_CIPHERS)
-#Create client
+# Create client
 
-client = Minio(endpoint="tanpantz.com:9000",
-               access_key="K41A9jEtlfz413O8",
-               secret_key="jhHYonvPuwWNKxERFEoM5G1tzaaYt8d0",
-               secure=False)
+client = Minio(
+    endpoint="tanpantz.com:9000",
+    access_key="K41A9jEtlfz413O8",
+    secret_key="jhHYonvPuwWNKxERFEoM5G1tzaaYt8d0",
+    secure=False,
+)
 
 print("Total buckets:", len(client.list_buckets()))
 
@@ -26,13 +29,18 @@ else:
 # Upload '/tmp/my_file.txt' as object name 'my_file.txt' to bucket 'my-bucket'.
 
 result = client.fput_object(
-    "my-bucket", "my_file.txt", "/mnt/c/Users/tanapon/Desktop/sometext.txt",
+    "my-bucket",
+    "my_file.txt",
+    "/mnt/c/Users/tanapon/Desktop/sometext.txt",
 )
 
-print("Created {0} with etag: {1}, version-id: {2}".format(
-    result.object_name, result.etag, result.version_id,
-))
-
+print(
+    "Created {0} with etag: {1}, version-id: {2}".format(
+        result.object_name,
+        result.etag,
+        result.version_id,
+    )
+)
 
 
 #

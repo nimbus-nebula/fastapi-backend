@@ -2,6 +2,7 @@ from datetime import datetime
 
 from databases.interfaces import Record
 from fastapi import Cookie, Depends
+
 from src.auth import service
 from src.auth.exceptions import EmailTaken, RefreshTokenNotValid
 from src.auth.schemas import AuthUser
@@ -24,6 +25,7 @@ async def valid_refresh_token(
     if not _is_valid_refresh_token(db_refresh_token):
         raise RefreshTokenNotValid()
 
+    print("Token was valid")
     return db_refresh_token
 
 

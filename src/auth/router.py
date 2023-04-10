@@ -27,6 +27,7 @@ async def register_user(
 
 @router.get("/me", response_model=UserResponse)
 async def get_my_account(
+    refresh_token: Record = Depends(valid_refresh_token),
     jwt_data: JWTData = Depends(parse_jwt_user_data),
 ) -> dict[str, str]:
     user = await service.get_user_by_id(jwt_data.user_id)
@@ -78,5 +79,3 @@ async def logout_user(
     response.delete_cookie(
         **utils.get_refresh_token_settings(refresh_token["refresh_token"], expired=True)
     )
-
-
