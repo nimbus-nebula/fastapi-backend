@@ -10,7 +10,7 @@ from src.auth.config import auth_config
 from src.auth.exceptions import InvalidCredentials
 from src.auth.schemas import AuthUser
 from src.auth.security import check_password, hash_password
-from src.database import auth_user, database, refresh_tokens, messages
+from src.database import auth_user, database, messages, refresh_tokens
 
 
 async def create_user(user: AuthUser) -> Record | None:
@@ -85,6 +85,7 @@ async def authenticate_user(auth_data: AuthUser) -> Record:
         raise InvalidCredentials()
 
     return user
+
 
 async def send_message(payload: dict[str, str], user_id: int) -> dict[str, str]:
     message = payload["message"]

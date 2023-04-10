@@ -52,4 +52,3 @@ jobs:
           docker rm -f backend
           docker pull ghcr.io/nimbus-nebula/fastapi-backend/fastapi-backend:latest
           docker run -d --name=backend --env-file /home/justyn/nim-neb/.env -p 8000:8000 ghcr.io/nimbus-nebula/fastapi-backend/fastapi-backend:latest
-          

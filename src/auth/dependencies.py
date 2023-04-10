@@ -2,6 +2,7 @@ from datetime import datetime
 
 from databases.interfaces import Record
 from fastapi import Cookie, Depends
+
 from src.auth import service
 from src.auth.exceptions import EmailTaken, RefreshTokenNotValid
 from src.auth.schemas import AuthUser

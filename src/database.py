@@ -57,4 +57,3 @@ messages = Table(
     Column("created_at", DateTime, server_default=func.now(), nullable=False),
     Column("updated_at", DateTime, onupdate=func.now()),
 )
-

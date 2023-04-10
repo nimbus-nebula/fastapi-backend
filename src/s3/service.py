@@ -1,5 +1,7 @@
 import re
+
 from pydantic import EmailStr
+
 
 def convert_email_to_bucket(email: EmailStr):
     match = re.search(r"^(.+?)@", email)
@@ -8,5 +10,3 @@ def convert_email_to_bucket(email: EmailStr):
         return result
     else:
         return "error in converting email:{1} to a bucket name".format(email)
-
-

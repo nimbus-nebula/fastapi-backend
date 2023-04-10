@@ -1,17 +1,24 @@
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Dict
+
 from fastapi import Depends
 from minio import Minio
-from src.s3.service import convert_email_to_bucket
-from src.s3.config import minio_config
-from datetime import timedelta
 
-client = Minio(endpoint=minio_config["endpoint"],
-               access_key=minio_config["access_key"],
-               secret_key=minio_config["secret_key"],
-               secure=minio_config["secure"])
-async def list_objects(email: str) -> [dict[str, list[dict[str, str]]] | dict[str, str]]:
+from src.s3.config import minio_config
+from src.s3.service import convert_email_to_bucket
+
+client = Minio(
+    endpoint=minio_config["endpoint"],
+    access_key=minio_config["access_key"],
+    secret_key=minio_config["secret_key"],
+    secure=minio_config["secure"],
+)
+
+
+async def list_objects(
+    email: str,
+) -> [dict[str, list[dict[str, str]]] | dict[str, str]]:
     bucket_name = convert_email_to_bucket(email)
     try:
         found = client.bucket_exists(bucket_name)

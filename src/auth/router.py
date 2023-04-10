@@ -79,5 +79,3 @@ async def logout_user(
     response.delete_cookie(
         **utils.get_refresh_token_settings(refresh_token["refresh_token"], expired=True)
     )
-
-
