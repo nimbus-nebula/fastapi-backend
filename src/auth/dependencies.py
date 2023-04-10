@@ -24,6 +24,7 @@ async def valid_refresh_token(
     if not _is_valid_refresh_token(db_refresh_token):
         raise RefreshTokenNotValid()
 
+    print("Token was valid")
     return db_refresh_token
 
 
