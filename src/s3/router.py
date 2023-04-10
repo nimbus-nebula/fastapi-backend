@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, File, UploadFile, Form
 from pydantic import EmailStr
 from starlette import status
 from src.s3 import objects_list
@@ -8,21 +8,21 @@ from src.auth.schemas import JWTData
 from src.s3.schemas import UploadData
 from src.s3 import upload as s3upload
 import ast
+from io import BytesIO
 
 router = APIRouter()
 
 @router.post("/upload", status_code=status.HTTP_201_CREATED)
 async def upload(
-        upload_data: UploadData,
+        file: UploadFile = File(...),
+        name: str = Form(...),
         jwt_data: JWTData = Depends(parse_jwt_user_data),
 ) -> dict[str, str]:
     user = await service.get_user_by_id(jwt_data.user_id)
+    file_contents = await file.read()
+    file_bytes = BytesIO(file_contents)
     email: EmailStr = user["email"]
-    save_as = upload_data.save_as
-    print("save as: ", save_as)
-    file = upload_data.file
-    upload_result = await s3upload.upload_file(email, save_as, file)
-    print(upload_result)
+    upload_result = await s3upload.upload_file(email, name, file_bytes)
     return upload_result
 
 """

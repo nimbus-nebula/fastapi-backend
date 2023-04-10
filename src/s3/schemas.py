@@ -1,6 +1,6 @@
 import re
 
-from pydantic import EmailStr, Field, validator, BaseModel
+from pydantic import EmailStr, Field, validator
 
 from src.auth.schemas import STRONG_PASSWORD_PATTERN
 from src.models import ORJSONModel
@@ -26,5 +26,4 @@ class AuthUser(ORJSONModel):
 
 class UploadData(ORJSONModel):
     save_as: str
-    file: any
-
+    file: bytes

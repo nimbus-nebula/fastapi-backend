@@ -10,7 +10,7 @@ client = Minio(endpoint=minio_config["endpoint"],
 
 async def upload_file(email: EmailStr, save_as: any, filebytes: any) -> dict[str, str]:
     bucket_name = convert_email_to_bucket(email)
-    print("bucket_name: {1}", bucket_name)
+    print("bucket_name: {0}".format(bucket_name))
     """
     Upload a file to minio storage.
 
@@ -21,6 +21,7 @@ async def upload_file(email: EmailStr, save_as: any, filebytes: any) -> dict[str
         print("trying to upload")
         found = client.bucket_exists(bucket_name)
         if not found:
+            print("Attempting to make bucket")
             client.make_bucket(bucket_name)
         else:
             print("Bucket {0} already exists".format(bucket_name))
