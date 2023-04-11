@@ -8,7 +8,7 @@ from src.auth.constants import ErrorCode
 @pytest.mark.asyncio
 async def test_register(client: TestClient) -> None:
     resp = await client.post(
-        "/auth/users",
+        "/auth/register",
         json={
             "email": "email@fake.com",
             "password": "123Aa!",
@@ -32,7 +32,7 @@ async def test_register_email_taken(
     monkeypatch.setattr(service, "get_user_by_email", fake_getter)
 
     resp = await client.post(
-        "/auth/users",
+        "/auth/register",
         json={
             "email": "email@fake.com",
             "password": "123Aa!",
@@ -42,3 +42,14 @@ async def test_register_email_taken(
 
     assert resp.status_code == status.HTTP_400_BAD_REQUEST
     assert resp_json["detail"] == ErrorCode.EMAIL_TAKEN
+
+
+@pytest.mark.asyncio
+async def test_login(client: TestClient) -> None:
+    resp = await client.post(
+        "/auth/login",
+        json={
+            "email": "email@fake.com",
+            "password": "123Aa!",
+        },
+    )
