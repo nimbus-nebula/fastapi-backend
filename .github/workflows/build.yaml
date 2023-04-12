@@ -1,4 +1,4 @@
-name: Build Backend Docker
+name: Test Coverage and Build Backend Docker
 
 on:
   push:
@@ -8,6 +8,30 @@ env:
   REGISTRY: ghcr.io
   BASE_IMG_NAME: ${{ github.repository }}
 jobs:
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Update pip
+        run: pip install --upgrade pip
+      - name: Install pip packages
+        run: pip install -r requirements/requirements.txt
+      - name: Install tox and any other packages
+        run: pip install tox
+      - name: Run tox
+        run: tox -e py
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   build:
     runs-on: ubuntu-latest
     permissions:

@@ -27,8 +27,3 @@ minio_config = {
     "secret_key": s3_secret_key,
     "secure": False,
 }
-print(minio_config["endpoint"], minio_config["access_key"])
-# client = Minio(endpoint="tanpantz.com:9000",
-#                access_key="K41A9jEtlfz413O8",
-#                secret_key="jhHYonvPuwWNKxERFEoM5G1tzaaYt8d0",
-#                secure=False)
